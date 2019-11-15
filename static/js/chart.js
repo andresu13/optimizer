@@ -15,7 +15,7 @@ var y = d3.scaleLinear()
           .range([height, 0]);
 
 var circle_size = d3.scaleSqrt()
-          .range([15,45]);
+          .range([15,40]);
 
 var color = d3.scaleOrdinal(d3.schemeCategory10 )
 

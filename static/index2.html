@@ -43,7 +43,18 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-4">
-                This is column 1
+                    <form>
+                        <div class="form-group">
+                                <label for="stockselection">Select stocks</label>
+                                <input class="form-control" type="text" id="id1" placeholder="Enter your User Name"> 
+                                <small id="stockhelp" class="form-text text-muted">You can select min 2 and max 10 stocks</small>
+                        </div>
+                        <div class="form-group">
+                                <label for="capital">Capital to invest</label>
+                                <input class="form-control" name="capital" placeholder="100000" required>
+                        <button class="btn btn-primary btn-block submit-button" type="button">Submit</button>
+                        </div>
+                    </form>
             </div>  
             <div class="col-xs-4">
                 This is column 2

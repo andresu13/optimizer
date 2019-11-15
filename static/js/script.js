@@ -15,32 +15,32 @@ $(function() {
     });
 });
 
-$(function() {
-    $('input[type=checkbox]').change(function(){
-        if(this.checked){
-            console.log("I am here")
-            $.ajax({
-                url: '/checked',
-                data: $('input[type=checkbox]').val(),
-                type: 'POST',
-                dataType: 'json',
-                success: function(response){
-                    chart_data = jQuery.parseJSON(response)
-                    console.log(chart_data)
-                    drawChart(chart_data)
+//$(function() {
+//    $('input[type=checkbox]').change(function(){
+//        if(this.checked){
+//            console.log("I am here")
+//            $.ajax({
+//                url: '/checked',
+//                data: $('input[type=checkbox]').val(),
+//                type: 'POST',
+//                dataType: 'json',
+//                success: function(response){
+//                    chart_data = jQuery.parseJSON(response)
+//                    console.log(chart_data)
+//                    drawChart(chart_data)
                     //$('.color_div').css('background-color', response)
-                },
-                error: function(error){
-                    console.log(error);
-                }
-            }
-            )
-        }
-    })
+//                },
+//                error: function(error){
+//                    console.log(error);
+//                }
+//            }
+//            )
+//        }
+//    })
 
 
 
-})
+//})
 
 $(document).ready(function() {
     var sampleArray = [{id:'AAPL',text:'Apple'}, {id:'MSFT',text:'Microsoft'}
@@ -56,7 +56,6 @@ $(document).ready(function() {
         data: stock_data,
         //data: sampleArray,
         maximumSelectionLength: 5,
-        minimumSelectionLength: 1,
         //matcher: function() {
             //console.log(params);
             //console.log(data);
