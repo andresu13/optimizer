@@ -52,10 +52,12 @@ $(document).ready(function() {
     console.log(stock_data)
     $('.search-bar').select2({
         placeholder: 'Select an option',
-        width: '400px',
+        //width: '400px',
+        width: '100%',
         data: stock_data,
         //data: sampleArray,
         maximumSelectionLength: 5,
+        theme: "bootstrap"
         //matcher: function() {
             //console.log(params);
             //console.log(data);
