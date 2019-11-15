@@ -65,7 +65,7 @@ def optimize():
     #data.drop(['Unnamed: 0'],axis=1,inplace=True)
 #    print(type(data))
 
-def stock_optimizer(data,capital,min_pos=0,Div_factor=10):
+def stock_optimizer(data,capital,min_pos=0,Div_factor=5):
     data.reset_index(inplace=True, drop=True)
     list_current_prices = data['Close']
     print(data)

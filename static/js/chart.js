@@ -5,8 +5,8 @@ function drawChart(data){
 
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 800 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
 
 // set the ranges
 var x = d3.scaleLinear()
@@ -15,7 +15,7 @@ var y = d3.scaleLinear()
           .range([height, 0]);
 
 var circle_size = d3.scaleSqrt()
-          .range([20,30]);
+          .range([15,45]);
 
 var color = d3.scaleOrdinal(d3.schemeCategory10 )
 

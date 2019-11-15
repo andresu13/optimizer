@@ -13,7 +13,7 @@
 
  
      <!-- Bootstrap core CSS -->
-     <link href="static/css/bootstrap.min.css" rel="stylesheet">
+     <link href="css/bootstrap.min.css" rel="stylesheet">
  
      <!-- Custom styles for this template
      <link href="static/css/signin.css" rel="stylesheet">
@@ -41,23 +41,16 @@
  
  <body>
     <div class="container">
-        <h3>Portfolio Optimizer V2</h3>
         <div class="row">
-            <div class="col-xs-6">
-                <span>Select 5 stocks from the list below and click submit to optimize your portfolio.</span>
-                    <!-- <form class="form-signin" action="/optimize" method="post" role="form"> -->
-                    <form action="/optimize" method="post" role="form">
-                        <select class="search-bar" name="stocks" multiple="multiple"></select>
-                        <!-- <input name="capital" class="form-control" value= "100000" placeholder="Capital" required> -->
-                        <input name="capital" value= "100000" placeholder="Capital" required>
-                        <!-- <input type="checkbox" name="check_test" class="form-control" value="my_value" placeholder="Checkbox" required> -->
-                        <!--  <button class="btn btn-lg btn-primary btn-block submit-button" type="button">Submit</button> -->
-                        <button class="submit-button" type="button">Submit</button>
-                    </form>
+            <div class="col-xs-4">
+                This is column 1
             </div>  
-            <div class="col-xs-6">
-                <div class="chart"></div>
+            <div class="col-xs-4">
+                This is column 2
             </div>
+            <div class="col-xs-4">
+                This is column 3
+            </div>  
         </div>
     </div>   
  </body>
