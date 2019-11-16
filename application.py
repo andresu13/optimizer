@@ -22,7 +22,7 @@ def optimize():
     selected_stocks = request.form.getlist('stocks')
     capital = request.form['capital']
     print(capital)
-    data_columns = ['Stock', 'Close', 'Volume', 'RSI', 'BETA', 'Sector', 'Name']
+    data_columns = ['Stock', 'Close', 'Volume', 'RSI', 'BETA', 'Sector', 'Name', 'Market Cap', 'Reward', 'RISK', 'Reward_Risk']
     if(len(selected_stocks) != 0):
          data = pd.read_csv('output_current_time.csv')
          data = data[data_columns]

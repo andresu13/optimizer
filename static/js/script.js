@@ -1,5 +1,14 @@
 $(function() {
-    $('.submit-button').click(function() {
+    //$('.submit-button').click(function() {
+    $('#stock_form').submit(function(event) {
+        event.preventDefault();
+        if ($('#stock_form')[0].checkValidity() === false) {
+            event.stopPropagation();
+        }
+        else {
+            //do your ajax submition here
+        
+        
         $.ajax({
             url: '/optimize',
             data: $('form').serialize(),
@@ -12,6 +21,8 @@ $(function() {
                 console.log(error['responseJSON']['message']);
             }
         });
+        }
+        $('#stock_form').addClass('was-validated');
     });
 });
 
@@ -68,3 +79,22 @@ $(document).ready(function() {
 
     });
 });
+
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('button', function(event) {
+            console.log("IM INSIDE LISTENER")
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
