@@ -83,8 +83,12 @@ def stock_optimizer(data,capital,I_type):
         risk_ctrl = 90
         reward_ctrl = 80
     capital = float(capital)
+    num_stocks = len(data)
+    if(Div_factor > num_stocks):
+        Div_factor = num_stocks
     list_current_prices = data['Close']
     list_risk = data['RISK']
+    list_reward = data['Reward']
     #print(list_current_prices)
     def objective(qty):
         obj = capital-np.dot(pd.Series(qty),list_current_prices).sum()
@@ -103,15 +107,16 @@ def stock_optimizer(data,capital,I_type):
         return risk_ctrl - (np.dot(sizes,list_risk).sum()/capital)
     def constraint_Reward(qty):
         sizes = np.dot(pd.Series(qty),list_current_prices)
-        return (np.dot(sizes,list_risk).sum()/capital) - reward_ctrl
+        return (np.dot(sizes,list_reward).sum()/capital) - reward_ctrl
     con1 = {'type':'ineq','fun':constraint_BP}
     con2 = {'type':'ineq','fun':constraint_Risk}
     con3 = {'type':'ineq','fun':constraint_Reward}
     cons = [con1,con2,con3]
+    #cons = [con1]
     sol = minimize(objective,qty0,method='SLSQP',bounds=bnds,constraints = cons)
     #display(data.head())
     R = pd.concat([data, pd.DataFrame(np.floor(sol.x),columns=['QTY'])],axis=1)
-    print("HERE ARE THE RECOMMENDATIONS")
+    #print("HERE ARE THE RECOMMENDATIONS")
     print(R[R['QTY']!=0])
     return R[R['QTY']!=0]
  

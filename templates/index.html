@@ -30,8 +30,10 @@
      <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
      <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.css" rel="stylesheet" />
 
+     <!-- Scripts to laod for D3 Chart-->
      <script src="static/js/chart.js"> </script>
      <script src="static/js/d3.v5.min.js"></script>
+     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
      <script>
          var stock_data = '{{ stocks|tojson }}';
@@ -56,7 +58,7 @@
                         <div class="form-group">
                                 <label for="capital">Capital to invest</label>
                                 <!-- <input name="capital" class="form-control" value= "100000" placeholder="Capital" required> -->
-                                <input class="form-control" name="capital" placeholder="100000" required>
+                                <input class="form-control" name="capital" placeholder="100000" value= "100000" required>
                                 <div class="invalid-feedback">Please enter a value</div>
                         <!-- <input type="checkbox" name="check_test" class="form-control" value="my_value" placeholder="Checkbox" required> -->
                         </div>

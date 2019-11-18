@@ -17,7 +17,7 @@ var y = d3.scaleLinear()
           .domain([0,100]);
 
 var circle_size = d3.scaleSqrt()
-          .range([10,45]);
+          .range([5,40]);
 
 var color = d3.scaleOrdinal(d3.schemeCategory10 )
 
@@ -68,6 +68,45 @@ var svg = d3.select(".chart").append("svg")
     color.domain(sectors)
     //circle_size.domain([3350,3440]);
 
+  // Tooltip
+  var tooltip = d3.select(".chart")
+  .append("div")
+  .style("position", "absolute")
+  .style("z-index", "10")
+  //.style("visibility", "hidden")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "black")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("color", "white")
+
+var showTooltip = function(d) {
+    //console.log("IM INSIDE TOOLTIP")
+    //tooltip
+    //  .transition()
+    //  .duration(200)
+    tooltip
+      .style("opacity", 1)
+      //.style("visibility", "visible")
+      .html("<ul><li>Company Name: <b>"+d['Name']+"</b></li><li># of stocks to buy: <b>"+d['QTY']+"</b></li><li>Capital to invest: <b>"+d['Total']+"</b></li></ul>")
+      .style("left", (d3.mouse(this)[0]+30) + "px")
+      .style("top", (d3.mouse(this)[1]+30) + "px")
+}
+var moveTooltip = function(d) {
+    tooltip
+      .style("left", (d3.mouse(this)[0]+30) + "px")
+      .style("top", (d3.mouse(this)[1]+30) + "px")
+}
+var hideTooltip = function(d) {
+    tooltip
+    //  .transition()
+    //  .duration(200)
+      .style("opacity", 0)
+      //.style("visibility", "hidden")
+}
+
+
   svg.append('g')
     .selectAll("dot")
     .data(data)
@@ -78,10 +117,14 @@ var svg = d3.select(".chart").append("svg")
       .attr("cx", function (d) { return x(d['Reward']); } )
       .attr("cy", function (d) { return y(d['RISK']); } )
       .attr("r", function (d) { return circle_size(d['Total']); })
-      .attr("fill", function(d){
-        //console.log("I AM INSIDE COLOR")
-        //console.log(color(d['Sector']))
-        return color(d['Sector']) })
+      .style("fill", function(d){return color(d['Sector']) })
+      //.on("mouseover", function(d){console.log("I am in the inner mouseover")})
+      //.on("mouseover", tip.show)
+      //.on("mouseout", tip.hide)
+      .on("mouseover", showTooltip )
+      .on("mousemove", moveTooltip )
+      .on("mouseleave", hideTooltip )
+
 
   svg.append("g")
       .attr("transform", "translate(0," + height + ")")
@@ -95,7 +138,7 @@ var svg = d3.select(".chart").append("svg")
   svg.append("text")
       .attr("text-anchor", "middle")
       .attr("x", width/2)
-      .attr("y", height+50)
+      .attr("y", height+42)
       .style("font-weight", "bold")
       .text("Reward (Higher is better)");
 
@@ -135,6 +178,8 @@ var svg = d3.select(".chart").append("svg")
         .style("alignment-baseline", "middle")
         //.on("mouseover", highlight)
         //.on("mouseleave", noHighlight)
+
+    
 
 //});
 }
