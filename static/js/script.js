@@ -67,7 +67,7 @@ $(document).ready(function() {
         width: '100%',
         data: stock_data,
         //data: sampleArray,
-        maximumSelectionLength: 5,
+        maximumSelectionLength: 15,
         theme: "bootstrap"
         //matcher: function() {
             //console.log(params);
@@ -78,6 +78,10 @@ $(document).ready(function() {
         //}
 
     });
+
+
+
+
 });
 
 (function() {
