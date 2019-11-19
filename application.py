@@ -34,7 +34,7 @@ def optimize():
          data = pd.read_csv('stock_data.csv')
          data = data[data_columns]
          data = data.loc[data['Stock'].isin(selected_stocks)]
-         print(data)
+         #print(data)
          optimized_portfolio = stock_optimizer(data,capital,risk_level)
          optimized_portfolio['Total'] = optimized_portfolio['Close'] * optimized_portfolio['QTY']
          optimized_portfolio = optimized_portfolio.to_dict(orient='records')
@@ -69,54 +69,52 @@ def stock_optimizer(data,capital,I_type):
     #return R[R['QTY']!=0]
     print(data)
     data.reset_index(drop=True, inplace=True)
+    data_q = data[['RISK','Reward']].quantile([.25,.5,.75])
     if I_type == "conservative":
-        print("This is conservative")
         Div_factor = 15
-        risk_ctrl = 30
-        reward_ctrl = 40
+        risk_ctrl = data_q.loc[0.25,'RISK']
+        reward_ctrl = data_q.loc[0.25,'Reward']
     elif I_type =='moderate':
         Div_factor = 10
-        risk_ctrl = 60
-        reward_ctrl = 60
+        risk_ctrl = data_q.loc[0.5,'RISK']
+        reward_ctrl = data_q.loc[0.25,'Reward']
     else:
         Div_factor = 5
-        risk_ctrl = 90
-        reward_ctrl = 80
-    capital = float(capital)
+        risk_ctrl = data_q.loc[0.75,'RISK']
+        reward_ctrl = data_q.loc[0.25,'Reward']
     num_stocks = len(data)
-    if(Div_factor > num_stocks):
+    if Div_factor > num_stocks:
         Div_factor = num_stocks
+    capital = float(capital)
     list_current_prices = data['Close']
     list_risk = data['RISK']
     list_reward = data['Reward']
     #print(list_current_prices)
     def objective(qty):
-        obj = capital-np.dot(pd.Series(qty),list_current_prices).sum()
+        obj = capital-np.dot(pd.Series(qty),list_current_prices)
         #print(obj)
         return obj
     qty0 = pd.Series([10]*len(list_current_prices))
-    Upper_b = np.floor((float(capital)/Div_factor)/list_current_prices)
+    Upper_b = np.floor(((1.20*float(capital))/Div_factor)/list_current_prices)
+    #print(Upper_b)
     Lower_b = pd.Series([0]*len(Upper_b))
     bnds = tuple(zip(Lower_b,Upper_b))
     # Cons is set to add more constraints laters on
     def constraint_BP(qty):
         # Constraints Buying power - stocks to buy >0 
-        return capital-np.dot(pd.Series(qty),list_current_prices).sum()
+        return capital-np.dot(pd.Series(qty),list_current_prices)
     def constraint_Risk(qty):
-        sizes = np.dot(pd.Series(qty),list_current_prices)
-        return risk_ctrl - (np.dot(sizes,list_risk).sum()/capital)
+        sizes = pd.Series(qty)*list_current_prices
+        return risk_ctrl - (np.dot(sizes,list_risk)/capital)
     def constraint_Reward(qty):
-        sizes = np.dot(pd.Series(qty),list_current_prices)
-        return (np.dot(sizes,list_reward).sum()/capital) - reward_ctrl
+        sizes = pd.Series(qty)*list_current_prices
+        return (np.dot(sizes,list_reward)/capital) - reward_ctrl
     con1 = {'type':'ineq','fun':constraint_BP}
     con2 = {'type':'ineq','fun':constraint_Risk}
     con3 = {'type':'ineq','fun':constraint_Reward}
     cons = [con1,con2,con3]
-    #cons = [con1]
     sol = minimize(objective,qty0,method='SLSQP',bounds=bnds,constraints = cons)
-    #display(data.head())
-    R = pd.concat([data, pd.DataFrame(np.floor(sol.x),columns=['QTY'])],axis=1)
-    #print("HERE ARE THE RECOMMENDATIONS")
+    R = pd.concat([data, pd.DataFrame(np.floor(sol.x).astype(int),columns=['QTY'])],axis=1)
     print(R[R['QTY']!=0])
     return R[R['QTY']!=0]
  
