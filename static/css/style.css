@@ -23,3 +23,9 @@
   color: #fff;
   border-radius: 2px;
 }
+
+hr.divider {
+  background-color: dimgrey;
+  border: solid 1px dimgrey;
+
+}
