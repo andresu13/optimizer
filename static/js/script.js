@@ -8,9 +8,9 @@ $(function() {
             $("#error_msg").css('visibility', 'visible').html("Please enter a valid amount to invest");
         }
 
-        else if($('#stock_selector').val().length < 2){
+        else if($('#stock_selector').val().length < 5){
             event.stopPropagation()
-            $("#error_msg").css('visibility', 'visible').html("Please select a minium of 5 stocks");
+            $("#error_msg").css('visibility', 'visible').html("Please select a minium of 5 stocks to diversify your portfolio");
         }
         
         //if ($('#stock_form')[0].checkValidity() === false) {
@@ -22,7 +22,7 @@ $(function() {
         //}
         else {
             //do your ajax submition here
-        
+            $("#error_msg").css('visibility', 'hidden')
         
         $.ajax({
             url: '/optimize',
