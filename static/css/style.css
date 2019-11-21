@@ -25,7 +25,9 @@
 }
 
 hr.divider {
-  background-color: dimgrey;
-  border: solid 1px dimgrey;
+  background-color: rgb(161, 159, 159);
+  border: solid 1px rgb(161, 159, 159);
+  border-radius: 5px;
+  width: 95%
 
 }
