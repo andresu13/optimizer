@@ -183,3 +183,51 @@ var hideTooltip = function(d) {
 
 //});
 }
+
+function drawAxis(){
+  var margin = {top: 20, right: 250, bottom: 45, left: 80},
+  width = 900 - margin.left - margin.right,
+  height = 450 - margin.top - margin.bottom;
+
+  var x = d3.scaleLinear()
+          .range([0, width])
+          .domain([0,100]);
+  var y = d3.scaleLinear()
+          .range([height, 0])
+          .domain([0,100]);
+
+  var svg = d3.select(".chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("class", "svg_chart")
+    .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+    
+      // add the y Axis
+      svg.append("g")
+          .call(d3.axisLeft(y));
+    
+      //Add X axis Label
+      svg.append("text")
+          .attr("text-anchor", "middle")
+          .attr("x", width/2)
+          .attr("y", height+42)
+          .style("font-weight", "bold")
+          .text("Reward (Higher is better)");
+    
+      //Add X axis Label
+      svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left+45)
+        .attr("x", -height/2)
+        .style("font-weight", "bold")
+        .text("Risk (Lower is better)")
+    
+
+}

@@ -1,5 +1,4 @@
 $(function() {
-    //$('.submit-button').click(function() {
     $('#stock_form').submit(function(event) {
         event.preventDefault();
         console.log($('#stock_selector').val())
@@ -13,13 +12,6 @@ $(function() {
             $("#error_msg").css('visibility', 'visible').html("Please select a minium of 5 stocks to diversify your portfolio");
         }
         
-        //if ($('#stock_form')[0].checkValidity() === false) {
-        //    event.stopPropagation()
-        //    console.log($('input[name="capital"]'))
-        //    if($('input[name="capital"]').val() == "" || parseFloat($('input[name="capital"]').val()) < 0){
-        //        $("#error_msg").css('visibility', 'visible').html("Please enter a valid amount to invest");
-        //    }
-        //}
         else {
             //do your ajax submition here
             $("#error_msg").css('visibility', 'hidden')
@@ -41,33 +33,6 @@ $(function() {
     });
 });
 
-//$(function() {
-//    $('input[type=checkbox]').change(function(){
-//        if(this.checked){
-//            console.log("I am here")
-//            $.ajax({
-//                url: '/checked',
-//                data: $('input[type=checkbox]').val(),
-//                type: 'POST',
-//                dataType: 'json',
-//                success: function(response){
-//                    chart_data = jQuery.parseJSON(response)
-//                    console.log(chart_data)
-//                    drawChart(chart_data)
-                    //$('.color_div').css('background-color', response)
-//                },
-//                error: function(error){
-//                    console.log(error);
-//                }
-//            }
-//            )
-//        }
-//    })
-
-
-
-//})
-
 $(document).ready(function() {
     var sampleArray = [{id:'AAPL',text:'Apple'}, {id:'MSFT',text:'Microsoft'}
     ,{id:'GE',text:'General Electric'},{id:'NFLX',text:'Netflix'}
@@ -84,17 +49,11 @@ $(document).ready(function() {
         //data: sampleArray,
         maximumSelectionLength: 15,
         theme: "bootstrap"
-        //matcher: function() {
-            //console.log(params);
-            //console.log(data);
-            //console.log(item);
-            //return data.toString().toLowerCase().indexOf(params.toString().toLowerCase()) >= 0
-            //|| option.id.toUpperCase().indexOf(term.toUpperCase())>=0;
-        //}
+ 
 
     });
 
-
+    drawAxis();
 
 
 });
@@ -107,7 +66,6 @@ $(document).ready(function() {
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function(form) {
         form.addEventListener('button', function(event) {
-            //console.log("IM INSIDE LISTENER")
           if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
