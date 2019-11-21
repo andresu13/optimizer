@@ -52,21 +52,25 @@
                     <form id="stock_form" action="/optimize" method="post" role="form" class="needs-validation" novalidate>
                         <div class="form-group">
                                 <label for="stockselection">Select stocks</label>
-                                <select class="search-bar" name="stocks" multiple="multiple"></select>
-                                <small id="stockhelp" class="form-text text-muted">Select a minimum of 2 and a maximum 15 stocks</small>
+                                <select id="stock_selector" class="search-bar" name="stocks" multiple="multiple"></select>
+                                <small id="stockhelp" class="form-text text-muted">Select a minimum of 5 and a maximum 15 stocks</small>
                         </div>
                         <div class="form-group">
                                 <label for="capital">Capital to invest</label>
                                 <!-- <input name="capital" class="form-control" value= "100000" placeholder="Capital" required> -->
                                 <input class="form-control" name="capital" placeholder="100000" value= "100000" required>
-                                <div class="invalid-feedback">Please enter a value</div>
+                                
                         <!-- <input type="checkbox" name="check_test" class="form-control" value="my_value" placeholder="Checkbox" required> -->
                         </div>
                         <div class="form-group">
                             <label for="risklevel">Risk Level</label>
+                            
                             <input type="range" class="form-control-range" min="0" max="2" name="risklevel" id="risklevel">
+                            <label for="conservative" class="pull-right" style="font-weight:normal;">Aggressive</label>
+                            <label for="happy" class="pull-left" style="font-weight:normal;">Conservative</label>
                         </div>
-                        <button class="btn btn-primary btn-block submit-button" type="submit">Submit</button> 
+                        <button class="btn btn-primary btn-block submit-button" type="submit" style="margin-top: 50px">Submit</button> 
+                        <div id="error_msg" class="invalid-feedback" style="visibility: hidden; color: red; margin-top: 10px">Please enter a value</div>
                         <!-- <button class="submit-button" type="button">Submit</button> -->
                         
                         

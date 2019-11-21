@@ -2,9 +2,24 @@ $(function() {
     //$('.submit-button').click(function() {
     $('#stock_form').submit(function(event) {
         event.preventDefault();
-        if ($('#stock_form')[0].checkValidity() === false) {
-            event.stopPropagation();
+        console.log($('#stock_selector').val())
+        if($('input[name="capital"]').val() == "" || parseFloat($('input[name="capital"]').val()) < 0){
+            event.stopPropagation()
+            $("#error_msg").css('visibility', 'visible').html("Please enter a valid amount to invest");
         }
+
+        else if($('#stock_selector').val().length < 2){
+            event.stopPropagation()
+            $("#error_msg").css('visibility', 'visible').html("Please select a minium of 5 stocks");
+        }
+        
+        //if ($('#stock_form')[0].checkValidity() === false) {
+        //    event.stopPropagation()
+        //    console.log($('input[name="capital"]'))
+        //    if($('input[name="capital"]').val() == "" || parseFloat($('input[name="capital"]').val()) < 0){
+        //        $("#error_msg").css('visibility', 'visible').html("Please enter a valid amount to invest");
+        //    }
+        //}
         else {
             //do your ajax submition here
         
@@ -92,7 +107,7 @@ $(document).ready(function() {
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function(form) {
         form.addEventListener('button', function(event) {
-            console.log("IM INSIDE LISTENER")
+            //console.log("IM INSIDE LISTENER")
           if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
