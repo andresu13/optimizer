@@ -1,7 +1,7 @@
 $(function() {
     $('#stock_form').submit(function(event) {
         event.preventDefault();
-        console.log($('#stock_selector').val())
+        //console.log($('#stock_selector').val())
         if($('input[name="capital"]').val() == "" || parseFloat($('input[name="capital"]').val()) < 0){
             event.stopPropagation()
             $("#error_msg").css('visibility', 'visible').html("Please enter a valid amount to invest");
@@ -25,7 +25,7 @@ $(function() {
                 drawChart(response['data']);
             },
             error: function(error) {
-                console.log(error['responseJSON']['message']);
+                //console.log(error['responseJSON']['message']);
             }
         });
         }
@@ -38,9 +38,9 @@ $(document).ready(function() {
     ,{id:'GE',text:'General Electric'},{id:'NFLX',text:'Netflix'}
     ,{id:'AMZN',text:'Amazon'}, {id:'GOOGL',text:'Alphabet'}, {id:'PEP', text:'PepsiCo'}]
 
-    console.log("document is ready")
+    //console.log("document is ready")
     stock_data = jQuery.parseJSON(stock_data)
-    console.log(stock_data)
+    //console.log(stock_data)
     $('.search-bar').select2({
         placeholder: 'Select an option',
         //width: '400px',

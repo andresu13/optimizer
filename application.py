@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, json, jsonify
 from scipy.optimize import minimize
 import pandas as pd
@@ -37,6 +36,9 @@ def optimize():
          #print(data)
          optimized_portfolio = stock_optimizer(data,capital,risk_level)
          optimized_portfolio['Total'] = optimized_portfolio['Close'] * optimized_portfolio['QTY']
+         print(optimized_portfolio['Total'])
+         optimized_portfolio['Total'] = optimized_portfolio['Total'].astype(int)
+         print(optimized_portfolio['Total'])
          optimized_portfolio = optimized_portfolio.to_dict(orient='records')
          return {"data": optimized_portfolio}
 
@@ -77,11 +79,11 @@ def stock_optimizer(data,capital,I_type):
     elif I_type =='moderate':
         Div_factor = 10
         risk_ctrl = data_q.loc[0.5,'RISK']
-        reward_ctrl = data_q.loc[0.25,'Reward']
+        reward_ctrl = data_q.loc[0.5,'Reward']
     else:
         Div_factor = 5
         risk_ctrl = data_q.loc[0.75,'RISK']
-        reward_ctrl = data_q.loc[0.25,'Reward']
+        reward_ctrl = data_q.loc[0.75,'Reward']
     num_stocks = len(data)
     if Div_factor > num_stocks:
         Div_factor = num_stocks

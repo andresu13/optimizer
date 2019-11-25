@@ -32,7 +32,7 @@ data.forEach(function(d){
 //Remove duplicates from sectors
 sectors = [...new Set(sectors)]
 
-console.log(sectors)
+//console.log(sectors)
 
           
 var svg = d3.select(".chart").append("svg")
@@ -43,14 +43,9 @@ var svg = d3.select(".chart").append("svg")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
 
-// get the data
-//d3.csv("sales.csv", function(error, data) {
-//  if (error) throw error;
-
   // format the data
   data.forEach(function(d) {
-    console.log(d)
-    //d.sales = +d.sales;
+    //console.log(d)
   });
 
   // Scale the range of the data in the domains
@@ -60,13 +55,9 @@ var svg = d3.select(".chart").append("svg")
   var yRange = yExtent[1] - yExtent[0];
   var circle_sizeExtent = d3.extent(data, function(d) { return d['Total'] });
   var circle_sizeRange = circle_sizeExtent[1] - circle_sizeExtent[0];
-
-    //x.domain([xExtent[0] - (xRange * .15), xExtent[1] + (xRange * .1)]);
-    //y.domain([yExtent[0] - (yRange * .15), yExtent[1] + (yRange * .1)]);
     
     circle_size.domain([circle_sizeExtent[0] - (circle_sizeRange * .05), circle_sizeExtent[1] + (circle_sizeRange * .05)]);
     color.domain(sectors)
-    //circle_size.domain([3350,3440]);
 
   // Tooltip
   var tooltip = d3.select(".chart")
@@ -89,7 +80,7 @@ var showTooltip = function(d) {
     tooltip
       .style("opacity", 1)
       //.style("visibility", "visible")
-      .html("<ul><li>Company Name: <b>"+d['Name']+"</b></li><li># of stocks to buy: <b>"+d['QTY']+"</b></li><li>Capital to invest: <b>"+d['Total']+"</b></li></ul>")
+      .html("<ul><li>Company Name: <b>"+d['Name']+"</b></li><li># of stocks to buy: <b>"+d['QTY']+"</b></li><li>Capital to invest: <b>$"+d['Total']+"</b></li></ul>")
       .style("left", (d3.mouse(this)[0]+30) + "px")
       .style("top", (d3.mouse(this)[1]+30) + "px")
 }
@@ -107,23 +98,56 @@ var hideTooltip = function(d) {
 }
 
 
-  svg.append('g')
-    .selectAll("dot")
-    .data(data)
-    .enter()
-    .append("circle")
-      //.attr("class", function(d) { return "bubbles " + d.continent })
-      .attr("class", "circle")
-      .attr("cx", function (d) { return x(d['Reward']); } )
-      .attr("cy", function (d) { return y(d['RISK']); } )
-      .attr("r", function (d) { return circle_size(d['Total']); })
-      .style("fill", function(d){return color(d['Sector']) })
-      //.on("mouseover", function(d){console.log("I am in the inner mouseover")})
-      //.on("mouseover", tip.show)
-      //.on("mouseout", tip.hide)
-      .on("mouseover", showTooltip )
-      .on("mousemove", moveTooltip )
-      .on("mouseleave", hideTooltip )
+  var circles = svg.append('g')
+                  .selectAll("dot")
+                  .data(data)
+                  .enter()
+                  .append("circle")
+
+  var circleAttributes = circles
+                  .attr("class", "circle")
+                  .attr("cx", function (d) { return x(d['Reward']); } )
+                  .attr("cy", function (d) { return y(d['RISK']); } )
+                  .attr("r", function (d) { return circle_size(d['Total']); })
+                  .style("fill", function(d){return color(d['Sector']) })
+                  .on("mouseover", showTooltip )
+                  .on("mousemove", moveTooltip )
+                  .on("mouseleave", hideTooltip )
+
+  var circle_text = svg.selectAll("text")
+                    .data(data)
+                    .enter();
+                    //.append("text");
+
+  var text_labels = circle_text
+                    .append("text")
+                    .attr("x", function(d) { return x(d['Reward']); })
+                    .attr("y", function(d)  { return y(d['RISK'])-circle_size(d['Total'])-8; })
+                    //.html(function(d){
+                    //  return "test"+"<br/>"+d['QTY']})
+                    //.html('<div class"style-me"><p>My label or other text</p></div>')
+                    .text(function(d){return d['Stock']})
+                    .style("text-anchor", "middle")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-weight", "bold")
+                    .attr("font-size", "13px")
+
+
+  
+  //var stock_count_text = svg.selectAll("text")
+  //                  .data(data)
+  //                  .enter()
+  //                  .append("text");
+
+  //var stock_count_labels = circle_text
+  //                  .append("text")
+  //                  .attr("x", function(d) { return x(d['Reward']); })
+  //                  .attr("y", function(d)  { return y(d['RISK'])-circle_size(d['Total'])-7; })
+  //                  .text(function(d){return d['QTY']})
+  //                  .style("text-anchor", "middle")
+  //                  .attr("font-family", "sans-serif")
+  //                  .attr("font-weight", "bold")
+  //                  .attr("font-size", "13px")
 
 
   svg.append("g")
