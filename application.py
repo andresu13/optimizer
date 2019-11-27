@@ -8,7 +8,7 @@ data = ''
 
 @app.route("/")
 def index():
-    data = pd.read_csv('stock_data.csv')
+    data = pd.read_csv('output_indicators_long_latest_timestamp.csv')
     stocks= data[['Stock', 'Name']]
     stocks.columns = ['id', 'text']
     stocks = stocks.to_dict(orient='records')
@@ -30,7 +30,7 @@ def optimize():
     print(capital)
     data_columns = ['Stock', 'Close', 'Volume', 'RSI', 'BETA', 'Sector', 'Name', 'Market Cap', 'Reward', 'RISK', 'Reward_Risk']
     if(len(selected_stocks) != 0):
-         data = pd.read_csv('stock_data.csv')
+         data = pd.read_csv('output_indicators_long_latest_timestamp.csv')
          data = data[data_columns]
          data = data.loc[data['Stock'].isin(selected_stocks)]
          #print(data)
@@ -47,28 +47,8 @@ def optimize():
 
     return "You are in the optimize function"
 
-#def stock_optimizer(data,capital,min_pos=0,Div_factor=5):
 def stock_optimizer(data,capital,I_type):
-    #data.reset_index(inplace=True, drop=True)
-    #list_current_prices = data['Close']
-    #print(data)
-    #def objective(qty):
-    #    obj = float(capital)*.9-np.dot(pd.Series(qty),list_current_prices).sum()
-    #    return obj
-    #qty0 = pd.Series([10]*len(list_current_prices))
-    #Upper_b = np.floor((float(capital)/Div_factor)/list_current_prices)
-    #Lower_b = pd.Series([0]*len(Upper_b))
-    #bnds = tuple(zip(Lower_b,Upper_b))
-    # Cons is set to add more constraints laters on
-    #def constraint_BP(qty):
-        # Constraints Buying power - stocks to buy >0
-    #    return float(capital)*.9-np.dot(pd.Series(qty),list_current_prices).sum()
-    #con1 = {'type':'ineq','fun':constraint_BP}
-    #cons = [con1]
-    #sol = minimize(objective,qty0,method='SLSQP',bounds=bnds,constraints = cons)
-    #R = pd.concat([data, pd.DataFrame(np.floor(sol.x),columns=['QTY'])],axis=1)
-    #print(R)
-    #return R[R['QTY']!=0]
+
     print(data)
     data.reset_index(drop=True, inplace=True)
     data_q = data[['RISK','Reward']].quantile([.25,.5,.75])
@@ -91,19 +71,14 @@ def stock_optimizer(data,capital,I_type):
     list_current_prices = data['Close']
     list_risk = data['RISK']
     list_reward = data['Reward']
-    #print(list_current_prices)
     def objective(qty):
         obj = capital-np.dot(pd.Series(qty),list_current_prices)
-        #print(obj)
         return obj
     qty0 = pd.Series([10]*len(list_current_prices))
     Upper_b = np.floor(((1.20*float(capital))/Div_factor)/list_current_prices)
-    #print(Upper_b)
     Lower_b = pd.Series([0]*len(Upper_b))
     bnds = tuple(zip(Lower_b,Upper_b))
-    # Cons is set to add more constraints laters on
     def constraint_BP(qty):
-        # Constraints Buying power - stocks to buy >0 
         return capital-np.dot(pd.Series(qty),list_current_prices)
     def constraint_Risk(qty):
         sizes = pd.Series(qty)*list_current_prices
@@ -121,9 +96,5 @@ def stock_optimizer(data,capital,I_type):
     return R[R['QTY']!=0]
  
 if __name__ == "__main__":
-    #data = pd.read_csv('output_indicators_long.csv')
-    #data.drop(['Unnamed: 0'],axis=1,inplace=True)
-    #data = data[data['timestamp'] == data['timestamp'].max()]
-    #checked()
 
     app.run(debug=True)
